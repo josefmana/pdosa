@@ -1,0 +1,36 @@
+# Set-up targets for data import:
+targets_data <- list(
+  targets::tar_target(
+    files, # For tracking purposes
+    command = unlist(data_paths()),
+    format = "file"
+  ),
+  targets::tar_target(
+    datafiles,
+    command = data_paths()
+  ),
+  targets::tar_target(
+    helpers,
+    command = extract_helpers()
+  ),
+  targets::tar_target(
+    raw_data,
+    command = import_data(datafiles, helpers)
+  ),
+  targets::tar_target(
+    rt_variables,
+    command = extract_rt_variables(helpers)
+  ),
+  targets::tar_target(
+    preprocessed_data,
+    command = preprocess_data(raw_data, helpers, rt_variables, return = "df")
+  ),
+  targets::tar_target(
+    scales,
+    command = preprocess_data(raw_data, helpers, rt_variables, return = "scl")
+  ),
+  targets::tar_target(
+    descriptives,
+    command = describe_data(raw_data)
+  )
+)

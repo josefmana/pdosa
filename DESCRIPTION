@@ -1,12 +1,32 @@
-Package: HippOsa
-Title: What the Package Does (One Line, Title Case)
+Package: hipposa
+Title: Volume of Hippocampi in OSA and PD
 Version: 0.0.0.9000
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+    person("Josef", "Mana", , "josef.mana@protonmail.com", role = c("aut", "cre"),
+            comment = c(ORCID = "0000-0002-7817-3978"))
+Description: Set-up functions for regression analyses of subcortical volume
+    estimates differences in patients with Parkinson's Disease
+    suffering obstructing sleep apnoa.
+License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
+Imports:
+    dplyr,
+    tidyselect,
+    ggplot2,
+    ggh4x,
+    ggpubr,
+    here,
+    openxlsx,
+    brms,
+    rlang,
+    purrr,
+    lubridate,
+    tibble,
+    performance,
+    emmeans,
+    priorsense,
+    bayesplot,
+    tidyr,
+    targets

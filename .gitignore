@@ -10,9 +10,7 @@ mods/**/*.rds
 **/*.fff
 **/*.log
 **/*.tex
-
-# ignore folders starting with an underscore
-_*/
+data-raw/
 
 # History files
 .Rprofile

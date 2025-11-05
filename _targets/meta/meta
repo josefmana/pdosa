@@ -1,0 +1,47 @@
+name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
+files|stem|7d247a098953cdff|83fc7aa6151fac93|cff0d3a963f97428|-229912786|/Users/josefmana/Desktop/EXCELES/hipposa/data-raw/Tabhipposubfields_lhx.xlsx*/Users/josefmana/Desktop/EXCELES/hipposa/data-raw/Tabhipposubfields_rhx.xlsx*/Users/josefmana/Desktop/EXCELES/hipposa/data-raw/asegTab.xlsx*/Users/josefmana/Desktop/EXCELES/hipposa/data-raw/RBDBIOPDCON_DATA_2024-07-17_1146.csv*/Users/josefmana/Desktop/EXCELES/hipposa/data-raw/BIOPD_MDSUPDRSIII.xlsx*/Users/josefmana/Desktop/EXCELES/hipposa/data-raw/MTA_table .xlsx|t20313.2969212963s|s401843b|401843|file|local|vector|||0.003||
+helpers|stem|5878d09743e82d6b|2eb3332eb2539a9f|ef2eebf085f9fa16|-2131492832||t20397.5954040604s|s2351b|2351|rds|local|vector|||0.081||
+datafiles|stem|b1b39611645c276a|8d5a31a2f4a9aa8a|cff0d3a963f97428|1802039208||t20397.5954044034s|s307b|307|rds|local|vector|||0.02||
+formulas|stem|a59aeee82fa440a5|aa5422cfa93bdc58|e858c959222b32eb|546578013||t20397.5960582384s|s522b|522|rds|local|vector|||0.753||
+rt_variables|stem|b214c8d4825e024b|484ca3fe6e7a7e36|ae6693bf61e40690|-1277069739||t20397.5960584025s|s105b|105|rds|local|vector|||0.006||
+raw_data|stem|3618220b2878a142|3eabf4395af13ac3|4fc2d865dcf2705d|-1101284392||t20397.5966928578s|s56296b|56296|rds|local|vector|||0.381||
+scales|stem|56372e0759627222|d2fe425d2528f4f5|01c537e96d4ca35e|2092325440||t20397.5966935301s|s1524b|1524|rds|local|vector|||0.051||
+preprocessed_data|stem|eca6bf2823bb6577|09dc895ebf1df8c5|01c537e96d4ca35e|1942981700||t20397.5966940079s|s88788b|88788|rds|local|vector|||0.034||
+descriptives|stem|c54aa849e8d9b39c|4d444d5cf285b0c6|14eccf2ae62c0858|-1799507461||t20397.5966956755s|s912b|912|rds|local|vector|||0.142||
+bayesian_regressions|stem|8a4b65ef41767f69|cc91dfdefc865078|78c7819f939827d5|-504028632||t20397.5981748573s|s15864235b|15864235|rds|local|vector|||125.969|Rows containing NAs were excluded from the model.. Rows containing NAs were excluded from the model.. Rows containing NAs were excluded from the model.. Rows containing NAs were excluded from the model.. Rows containing NAs were excluded from the model.. Rows containing NAs were excluded from the model.|
+regressions|stem|ef1aaed7f9283b29|99c635f1f630e0cb|2e0a0dc389b1f5b7|-752035610||t20397.5981756278s|s499071b|499071|rds|local|vector|||0.035||
+posterior_predictive_checks|stem|254e522478f17708|e6c3864c4d2f1568|e6704262f77f2ed6|-548983520||t20397.6033820769s|s3634366b|3634366|rds|local|vector|||3.763|The following arguments were unrecognized and ignored stat, bins. The following arguments were unrecognized and ignored stat, bins. The following arguments were unrecognized and ignored stat, bins. The following arguments were unrecognized and ignored stat, bins. The following arguments were unrecognized and ignored stat, bins. The following arguments were unrecognized and ignored stat, bins. The following arguments were unrecognized and ignored stat, bins. The following arguments were unrecognized and ignored stat, bins. The following arguments were unrecognized and ignored stat, bins. The following arguments were unrecognized and ignored stat, bins. The following arguments were unrecognized and ignored stat, bins. The following arguments were unrecognized and ignored stat, bins|
+prior_sensitivity|stem|5d83eeda8f0c6ff5|ed398305a5dfe5ea|e6704262f77f2ed6|1969571204||t20397.6034108059s|s1735b|1735|rds|local|vector|||2.472||
+boxplot_brains|stem|19d6a5c76bc997e1|3fb609a8d630f375|ed725175036ebd45|-1256805996||t20397.6097399781s|s1274186b|1274186|rds|local|vector|||1.148||
+boxplot_cognition_osa|stem|fe8ee2019e74a642|045c51a866543435|ed725175036ebd45|-1638003087||t20397.6097493708s|s613044b|613044|rds|local|vector|||0.699|There was 1 warning in dplyrmutate.ℹ In argument p  paste0zeroleadp.value, bh_adjustp.value.Caused by warning in max no nonmissing arguments to max returning Inf|
+boxplot_cognition_pd|stem|ce06fb254c1cd906|b8dfd0de999781f7|ed725175036ebd45|1048014193||t20397.6097742994s|s613908b|613908|rds|local|vector|||2.049||
+fit_bayesian|function|5cb4b609e0b9168c
+re_formulate|function|6f47a45bef1e9b6c
+extract_helpers|function|00ffb51bb4681e93
+targets_regressions|object|744578759291725c
+data_paths|function|94141b9ecb64989a
+bh_adjust|function|ae0eb48fe828f64d
+mass|function|846061f7cc2455cf
+rprint|function|7af34ef416b83f41
+preprocess_data|function|f0df2b09c15814b7
+extract_rt_variables|function|20504ec59bb30e41
+targets_data|object|d1158e1c90a37779
+zscore|function|d41f32a0966e9a79
+targets_visualisation|object|0b319c9c647c8c4a
+lm_dia|function|85b6422b008a4ec9
+fit_reg|function|e7aad5d2b247db32
+set_formulas|function|5b89f8957694c394
+model_check|function|96b6d2c86d01dbf9
+lm_coeff|function|7aae469428a7eb29
+freqprop|function|8394a01f868097ae
+msd|function|cb92cdda44518fa1
+zerolead|function|6e34b460b65da301
+import_data|function|84dadeb0160cf7b9
+fit_regressions|function|a2e32751eef3ee8e
+extract_coefficients|function|8d2e2f23b19c90d2
+summarise_regressions|function|ec0136a8ebc18ae8
+statextract|function|53eb96b85498feef
+boxplots|function|c0b68b5bce396daa
+describe_data|function|0850d8160c33eb4e
+bayesian_coefficients|stem|15550d513c3eaf86|2979e30578b87730|2fc13f2353e6290f|-1449348269||t20397.6118664816s|s944b|944|rds|local|vector|||0.387||
+summaries|stem|e9f13347aec4c2f3|dd2939981b9d2c78|043dc771bd27f25d|470808022||t20397.6118804596s|s9036b|9036|rds|local|vector|||1.188|There was 1 warning in dplyrmutate.ℹ In argument sig_FDR  bh_adjustp value.Caused by warning in max no nonmissing arguments to max returning Inf. contrasts dropped from factor SUBJ. contrasts dropped from factor AHI.F. contrasts dropped from factor GENDER. contrasts dropped from factor SUBJ. contrasts dropped from factor AHI.F. contrasts dropped from factor GENDER. contrasts dropped from factor SUBJ. contrasts dropped from factor AHI.F. contrasts dropped from factor GENDER. contrasts dropped from factor SUBJ. contrasts dropped from factor AHI.F. contrasts dropped from factor GENDER. contrasts dropped from factor SUBJ. contrasts dropped from factor AHI.F. contrasts dropped from factor GENDER. contrasts dropped from factor SUBJ. contrasts dropped from factor AHI.F. contrasts dropped from factor GENDER. contrasts dropped from factor SUBJ. contrasts dropped from factor AHI.F. contrasts dropped from factor GENDER. contrasts dropped from factor SUBJ. contrasts dropped from factor AHI.F. contrasts dropped from factor GENDER. contrasts dropped from factor SUBJ. contrasts dropped from factor AHI.F. contrasts dropped from factor GENDER. contrasts dropped from factor SUBJ. contrasts dropped from factor AHI.F. contrasts dropped from factor GENDER. contrasts dropped from factor SUBJ. contrasts dropped from factor AHI.F. contrasts dropped from factor GENDER. contrasts dropped from factor SUBJ. contrasts dropped from factor AHI.F. contrasts dropped from factor GENDER. contrasts dropped from factor SUBJ. contrasts dropped from factor AHI.F. contrasts dropped from factor GENDER. contrasts dropped from factor SUBJ. contrasts dropped from factor AHI.F. contrasts dropped from factor GENDER. contrasts dropped from factor SUBJ. contrasts dropped from factor AHI.F. contrasts dropped from factor GENDER. contrasts dropped from factor SUBJ. contrasts dropped from factor AHI.F. contrasts dropped from factor GENDER. contrasts dropped from factor SUBJ|

@@ -1,21 +1,25 @@
-#' Adjust p-values for multiple comparisons
+#' Adjust for Multiple Comparisons
 #'
-#' Evaluate a vector of p-values for statistical significance on 5% False Discovery
-#' Rate according to the Benjamini-Hochberg procedure.
+#' Evaluate a vector of p-values for statistical significance on
+#' 5% False Discovery Rate according to the Benjamini-Hochberg
+#' procedure.
 #'
-#' @param p A vector of p-values
+#' @param p A vector of p-values.
 #'
-#' @exports A vector indicating statistical significance after adjustment.
+#' @returns A vector indicating statistical significance after
+#'    adjustment.
+#'
+#' @export
 bh_adjust <- function(p) {
   # Extract threshold:
   bh_thres <- data.frame(
-    p = sort(p), # sort p values from smallest to largest
-    thres = .05 * (seq_along(p)) / length(p) # prepare BH thresholds for each p value
+    p = sort(p), # sort p-values from smallest to largest
+    thres = .05 * (seq_along(p)) / length(p) # prepare BH thresholds for each p-value
   ) |>
-    mutate(sig = if_else(p <= thres, TRUE, FALSE)) |>
-    filter(sig == TRUE) |>
-    select(thres) |>
+    dplyr::mutate(sig = dplyr::if_else(p <= thres, TRUE, FALSE)) |>
+    dplyr::filter(sig == TRUE) |>
+    dplyr::select(thres) |>
     max()
   # Return stars based on this threshold:
-  if_else(p < bh_thres, "*", "")
+  dplyr::if_else(p < bh_thres, "*", "")
 }
