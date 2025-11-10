@@ -1,7 +1,8 @@
 # files not supposed to be shared
-mods/**/*.rds
+/*.rds
 **/.DS_Store
 **/*.docx
+**/*.xlsx
 **/*.pages
 **/*.tiff
 **/*.aux
@@ -10,8 +11,6 @@ mods/**/*.rds
 **/*.fff
 **/*.log
 **/*.tex
-data-raw/
-helpers/
 
 # History files
 .Rprofile

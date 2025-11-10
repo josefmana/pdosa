@@ -2,16 +2,16 @@
 targets_data <- list(
   targets::tar_target(
     files, # For tracking purposes
-    command = unlist(data_paths()),
+    command = unlist(c(data_paths(), helper_paths())) |> purrr::keep(\(x) grepl("\\.", x)),
     format = "file"
   ),
   targets::tar_target(
     datafiles,
-    command = data_paths()
+    command = data_paths(files)
   ),
   targets::tar_target(
     helpers,
-    command = extract_helpers()
+    command = extract_helpers(helper_paths(files))
   ),
   targets::tar_target(
     raw_data,

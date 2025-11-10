@@ -1,16 +1,20 @@
 #' Document Paths to Data
 #'
-#' This function takes no parameter but needs to be
-#' adjusted manually if desired. It is used in the
-#' \pkg{targets} pipeline to check for changes in data.
+#' This function needs to be adjusted manually if
+#' desired. It is used in the \pkg{targets} pipeline
+#' to show data files locations when importing them.
+#'
+#' @param tracker A character vector. In the \pkg{targets}
+#'    pipeline serves to control the flow if the raw data
+#'    change.
 #'
 #' @returns A data.frame containing paths to data
 #'
 #' @export
-data_paths <- function() {
+data_paths <- function(tracker) {
   data.frame(
-    lhippo = here::here("data-raw", "Tabhipposubfields_lhx.xlsx"),
-    rhippo = here::here("data-raw", "Tabhipposubfields_rhx.xlsx"),
+    lhippo = here::here("data-raw", "Tabhippsubfields_lh_new2.xlsx"),
+    rhippo = here::here("data-raw", "Tabhippsubfields_rh_new2.xlsx"),
     subcor = here::here("data-raw", "asegTab.xlsx"),
     psych = here::here("data-raw", "RBDBIOPDCON_DATA_2024-07-17_1146.csv"),
     motor = here::here("data-raw", "BIOPD_MDSUPDRSIII.xlsx"),
@@ -18,7 +22,30 @@ data_paths <- function() {
   )
 }
 
-#' Imports Raw Data
+#' Document Paths to Helper Files
+#'
+#' This function needs to be adjusted manually if
+#' desired. It is used in the \pkg{targets} pipeline
+#' to show helper files locations when importing them.
+#'
+#' @param tracker A character vector. In the \pkg{targets}
+#'    pipeline serves to control the flow if the helper
+#'    files change.
+#'
+#' @returns A data.frame containing paths to helpers
+#'
+#' @export
+helper_paths <- function(tracker) {
+  data.frame(
+    psychvar = here::here("data-raw", "psychs.csv"),
+    calculat = here::here("data-raw", "calculator_final_v7_c_301116.xlsx"),
+    calc_sheet = "equations",
+    subcortex = here::here("data-raw", "subcortical.csv"),
+    hippocampi = here::here("data-raw", "hippocampus.csv")
+  )
+}
+
+#' Import Raw Data
 #'
 #' Takes in file paths to data and helper files,
 #' imports the data and structure them properly.
@@ -49,7 +76,8 @@ import_data <- function(files, helpers) {
           dplyr::rename_with(\(x) gsub("-", "_", x)),
         by = "Study.ID",
         suffix = c("_rhx", "_lhx")
-      ),
+      ) |>
+        dplyr::select(Study.ID, tidyselect::all_of(helpers$hippo$var)),
       mta = openxlsx::read.xlsx(mta) |>
         dplyr::select(Study.ID, tidyselect::contains("MTA")),
       # Psychology data
@@ -195,7 +223,9 @@ preprocess_data <- function(data, help, rt_vars, return = "df") {
       !!!setNames(rep(NA, length(unique(help$hippo$name))), unique(help$hippo$name)),
       dplyr::across(
         .cols = unique(help$hippo$name),
-        .fns = \(x) rowSums(dplyr::across(tidyselect::all_of(with(help$hippo, var[name == dplyr::cur_column()]))))
+        .fns = function(x) {
+          rowSums(dplyr::across(tidyselect::all_of(with(help$hippo, var[name == dplyr::cur_column()]))))
+        }
       )
     )
   # Format it for analyses:
@@ -209,9 +239,9 @@ preprocess_data <- function(data, help, rt_vars, return = "df") {
     ) |>
     # Set-up contrasts to avoid multicollinearity in interaction terms:
     within({
-      contrasts(SUBJ) <- -contr.sum(2)/2 # CON = -0.5, PD = 0.5
-      contrasts(AHI.F) <- -contr.sum(2)/2 # High = -0.5, Low = 0.5
-      contrasts(GENDER) <- contr.sum(2)/2 # female = 0.5, male = -0.5
+      contrasts(SUBJ) <- -contr.sum(2) / 2 # CON = -0.5, PD = 0.5
+      contrasts(AHI.F) <- -contr.sum(2) / 2 # High = -0.5, Low = 0.5
+      contrasts(GENDER) <- contr.sum(2) / 2 # female = 0.5, male = -0.5
     })
   # Extract scaling values, i.e.,
   # enrollment full sample means and SDs
@@ -225,7 +255,7 @@ preprocess_data <- function(data, help, rt_vars, return = "df") {
   df <- df |>
     dplyr::mutate(
       dplyr::across(
-        .cols = tidyselect::all_of( rownames(scl) ),
+        .cols = tidyselect::all_of(rownames(scl)),
         .fns = \(x) (x - scl[dplyr::cur_column(), "M"]) / scl[dplyr::cur_column(), "SD"]
       )
     )

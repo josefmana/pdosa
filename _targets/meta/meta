@@ -1,47 +1,49 @@
 name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
-targets_regressions|object|744578759291725c
-targets_data|object|d1158e1c90a37779
-targets_visualisation|object|0b319c9c647c8c4a
-datafiles|stem|5bfe034169d4b6d6|8d5a31a2f4a9aa8a|cff0d3a963f97428|1802039208||t20397.6386910052s|s306b|306|rds|local|vector|||0.005||
-formulas|stem|a59aeee82fa440a5|aa5422cfa93bdc58|e858c959222b32eb|546578013||t20297.6918649043s|s522b|522|rds|local|vector|||0.753||
-files|stem|7d247a098953cdff|83fc7aa6151fac93|cff0d3a963f97428|-229912786|/Users/josefmana/Desktop/mercenaries/hipposa/data-raw/Tabhipposubfields_lhx.xlsx*/Users/josefmana/Desktop/mercenaries/hipposa/data-raw/Tabhipposubfields_rhx.xlsx*/Users/josefmana/Desktop/mercenaries/hipposa/data-raw/asegTab.xlsx*/Users/josefmana/Desktop/mercenaries/hipposa/data-raw/RBDBIOPDCON_DATA_2024-07-17_1146.csv*/Users/josefmana/Desktop/mercenaries/hipposa/data-raw/BIOPD_MDSUPDRSIII.xlsx*/Users/josefmana/Desktop/mercenaries/hipposa/data-raw/MTA_table .xlsx|t20313.2969326872s|s401843b|401843|file|local|vector|||0.006||
-rt_variables|stem|b214c8d4825e024b|484ca3fe6e7a7e36|ae6693bf61e40690|-1277069739||t20299.3428530457s|s105b|105|rds|local|vector|||0.006||
-raw_data|stem|3618220b2878a142|3eabf4395af13ac3|6196135807739fb6|-1101284392||t20397.6386959475s|s56296b|56296|rds|local|vector|||0.382||
-scales|stem|56372e0759627222|d2fe425d2528f4f5|01c537e96d4ca35e|2092325440||t20313.5995022532s|s1524b|1524|rds|local|vector|||0.051||
-preprocessed_data|stem|eca6bf2823bb6577|09dc895ebf1df8c5|01c537e96d4ca35e|1942981700||t20313.5995027955s|s88788b|88788|rds|local|vector|||0.034||
-descriptives|stem|c54aa849e8d9b39c|4d444d5cf285b0c6|14eccf2ae62c0858|-1799507461||t20313.6021568934s|s912b|912|rds|local|vector|||0.142||
-bayesian_regressions|stem|0ead44a800c23bdc|cc91dfdefc865078|78c7819f939827d5|-504028632||t20397.6402134914s|s13928661b|13928661|rds|local|vector|||129.373|Rows containing NAs were excluded from the model.. Rows containing NAs were excluded from the model.. Rows containing NAs were excluded from the model.. Rows containing NAs were excluded from the model.. Rows containing NAs were excluded from the model.. Rows containing NAs were excluded from the model.|
-regressions|stem|ef1aaed7f9283b29|99c635f1f630e0cb|2e0a0dc389b1f5b7|-752035610||t20313.6010825506s|s499071b|499071|rds|local|vector|||0.035||
-bayesian_coefficients|stem|15550d513c3eaf86|2979e30578b87730|147b8bb252896662|-1449348269||t20397.6402272735s|s944b|944|rds|local|vector|||0.497||
-posterior_predictive_checks|stem|b381ab2108451459|e6c3864c4d2f1568|9494da431cba733c|-548983520||t20397.6402798236s|s3634361b|3634361|rds|local|vector|||3.432|The following arguments were unrecognized and ignored: stat, bins. The following arguments were unrecognized and ignored: stat, bins. The following arguments were unrecognized and ignored: stat, bins. The following arguments were unrecognized and ignored: stat, bins. The following arguments were unrecognized and ignored: stat, bins. The following arguments were unrecognized and ignored: stat, bins. The following arguments were unrecognized and ignored: stat, bins. The following arguments were unrecognized and ignored: stat, bins. The following arguments were unrecognized and ignored: stat, bins. The following arguments were unrecognized and ignored: stat, bins. The following arguments were unrecognized and ignored: stat, bins. The following arguments were unrecognized and ignored: stat, bins|
-prior_sensitivity|stem|75e5ebf4942a7bcc|ed398305a5dfe5ea|9494da431cba733c|1969571204||t20397.6403149058s|s1720b|1720|rds|local|vector|||2.337||
-boxplot_brains|stem|a9eac964f9eb8ae6|3fb609a8d630f375|ed725175036ebd45|-1256805996||t20397.6403304457s|s1275620b|1275620|rds|local|vector|||1.16||
-boxplot_cognition_osa|stem|8ff704e9d223bb20|045c51a866543435|ed725175036ebd45|-1638003087||t20397.6403405869s|s614943b|614943|rds|local|vector|||0.752|There was 1 warning in `dplyr::mutate()`. ℹ In argument: `p = paste0(zerolead(p.value), bh_adjust(p.value))`. Caused by warning in `max()`: ! no non-missing arguments to max; returning -Inf|
-boxplot_cognition_pd|stem|96f431af1ca62ec2|b8dfd0de999781f7|ed725175036ebd45|1048014193||t20397.6403685825s|s615684b|615684|rds|local|vector|||2.292||
-summaries|stem|e9f13347aec4c2f3|dd2939981b9d2c78|043dc771bd27f25d|470808022||t20313.6012235129s|s9036b|9036|rds|local|vector|||1.188|There was 1 warning in dplyrmutate.ℹ In argument sig_FDR  bh_adjustp value.Caused by warning in max no nonmissing arguments to max returning Inf. contrasts dropped from factor SUBJ. contrasts dropped from factor AHI.F. contrasts dropped from factor GENDER. contrasts dropped from factor SUBJ. contrasts dropped from factor AHI.F. contrasts dropped from factor GENDER. contrasts dropped from factor SUBJ. contrasts dropped from factor AHI.F. contrasts dropped from factor GENDER. contrasts dropped from factor SUBJ. contrasts dropped from factor AHI.F. contrasts dropped from factor GENDER. contrasts dropped from factor SUBJ. contrasts dropped from factor AHI.F. contrasts dropped from factor GENDER. contrasts dropped from factor SUBJ. contrasts dropped from factor AHI.F. contrasts dropped from factor GENDER. contrasts dropped from factor SUBJ. contrasts dropped from factor AHI.F. contrasts dropped from factor GENDER. contrasts dropped from factor SUBJ. contrasts dropped from factor AHI.F. contrasts dropped from factor GENDER. contrasts dropped from factor SUBJ. contrasts dropped from factor AHI.F. contrasts dropped from factor GENDER. contrasts dropped from factor SUBJ. contrasts dropped from factor AHI.F. contrasts dropped from factor GENDER. contrasts dropped from factor SUBJ. contrasts dropped from factor AHI.F. contrasts dropped from factor GENDER. contrasts dropped from factor SUBJ. contrasts dropped from factor AHI.F. contrasts dropped from factor GENDER. contrasts dropped from factor SUBJ. contrasts dropped from factor AHI.F. contrasts dropped from factor GENDER. contrasts dropped from factor SUBJ. contrasts dropped from factor AHI.F. contrasts dropped from factor GENDER. contrasts dropped from factor SUBJ. contrasts dropped from factor AHI.F. contrasts dropped from factor GENDER. contrasts dropped from factor SUBJ. contrasts dropped from factor AHI.F. contrasts dropped from factor GENDER. contrasts dropped from factor SUBJ|
+formulas|stem|a59aeee82fa440a5|aa5422cfa93bdc58|e858c959222b32eb|546578013||t20397.5960582384s|s522b|522|rds|local|vector|||0.753||
+fit_reg|function|e7aad5d2b247db32|||||||||||||||
+raw_data|stem|476a4894916c7c07|3eabf4395af13ac3|457591e179c9db51|-1101284392||t20402.5157827222s|s60760b|60760|rds|local|vector|||0.335|There were 5 warnings in dplyrmutate.The first warning wasℹ In argument dplyracrosstidyselectends_withID, as.numeric.Caused by warning NAs introduced by coercionℹ Run dplyrlast_dplyr_warnings to see the 4 remaining warnings.|
+rt_variables|stem|b214c8d4825e024b|484ca3fe6e7a7e36|543560ea52428da1|-1277069739||t20402.5157827749s|s105b|105|rds|local|vector|||0.001||
+descriptives|stem|c54aa849e8d9b39c|4d444d5cf285b0c6|68ff306c13364e66|-1799507461||t20402.515784524s|s912b|912|rds|local|vector|||0.15||
+scales|stem|86c53937a152be9a|d2fe425d2528f4f5|8c3841a3a4c9c6d7|2092325440||t20402.5157852312s|s1662b|1662|rds|local|vector|||0.059||
+preprocessed_data|stem|f7d098844fd0c538|09dc895ebf1df8c5|8c3841a3a4c9c6d7|1942981700||t20402.5157857766s|s102442b|102442|rds|local|vector|||0.042||
+bayesian_regressions|stem|915b4d73d376fd50|cc91dfdefc865078|110778bf699eeca5|-504028632||t20402.5172822694s|s15895005b|15895005|rds|local|vector|||127.434|Rows containing NAs were excluded from the model.. Rows containing NAs were excluded from the model.. Rows containing NAs were excluded from the model.. Rows containing NAs were excluded from the model.. Rows containing NAs were excluded from the model.. Rows containing NAs were excluded from the model.|
+regressions|stem|87f2e2eb6f887d31|99c635f1f630e0cb|200cec89ab74b8e6|-752035610||t20402.517283236s|s581700b|581700|rds|local|vector|||0.046||
+bayesian_coefficients|stem|15550d513c3eaf86|2979e30578b87730|4cd5a608122659cf|-1449348269||t20402.5172857331s|s944b|944|rds|local|vector|||0.212||
+posterior_predictive_checks|stem|4df30046ded40049|e6c3864c4d2f1568|901fd336a696e045|-548983520||t20402.5173353347s|s3633524b|3633524|rds|local|vector|||3.815|The following arguments were unrecognized and ignored stat, bins. The following arguments were unrecognized and ignored stat, bins. The following arguments were unrecognized and ignored stat, bins. The following arguments were unrecognized and ignored stat, bins. The following arguments were unrecognized and ignored stat, bins. The following arguments were unrecognized and ignored stat, bins. The following arguments were unrecognized and ignored stat, bins. The following arguments were unrecognized and ignored stat, bins. The following arguments were unrecognized and ignored stat, bins. The following arguments were unrecognized and ignored stat, bins. The following arguments were unrecognized and ignored stat, bins. The following arguments were unrecognized and ignored stat, bins|
+prior_sensitivity|stem|5d83eeda8f0c6ff5|ed398305a5dfe5ea|901fd336a696e045|1969571204||t20402.5173620797s|s1735b|1735|rds|local|vector|||2.305||
+boxplot_brains|stem|77d407ba13c02448|3fb609a8d630f375|e6feea1e056c8b53|-1256805996||t20402.5173766788s|s1392634b|1392634|rds|local|vector|||1.107||
+boxplot_cognition_osa|stem|6b68aef81203bddf|045c51a866543435|e6feea1e056c8b53|-1638003087||t20402.5173864671s|s644891b|644891|rds|local|vector|||0.74|There was 1 warning in dplyrmutate.ℹ In argument p  paste0zeroleadp.value, bh_adjustp.value.Caused by warning in max no nonmissing arguments to max returning Inf|
+boxplot_cognition_pd|stem|5ce3397da117c3d7|b8dfd0de999781f7|e6feea1e056c8b53|1048014193||t20402.5174126502s|s645859b|645859|rds|local|vector|||2.149||
+summaries|stem|c6db960a2460411f|dd2939981b9d2c78|653720909b895f12|470808022||t20402.5174267643s|s9567b|9567|rds|local|vector|||1.215|There was 1 warning in dplyrmutate.ℹ In argument sig_FDR  bh_adjustp value.Caused by warning in max no nonmissing arguments to max returning Inf. contrasts dropped from factor SUBJ. contrasts dropped from factor AHI.F. contrasts dropped from factor GENDER. contrasts dropped from factor SUBJ. contrasts dropped from factor AHI.F. contrasts dropped from factor GENDER. contrasts dropped from factor SUBJ. contrasts dropped from factor AHI.F. contrasts dropped from factor GENDER. contrasts dropped from factor SUBJ. contrasts dropped from factor AHI.F. contrasts dropped from factor GENDER. contrasts dropped from factor SUBJ. contrasts dropped from factor AHI.F. contrasts dropped from factor GENDER. contrasts dropped from factor SUBJ. contrasts dropped from factor AHI.F. contrasts dropped from factor GENDER. contrasts dropped from factor SUBJ. contrasts dropped from factor AHI.F. contrasts dropped from factor GENDER. contrasts dropped from factor SUBJ. contrasts dropped from factor AHI.F. contrasts dropped from factor GENDER. contrasts dropped from factor SUBJ. contrasts dropped from factor AHI.F. contrasts dropped from factor GENDER. contrasts dropped from factor SUBJ. contrasts dropped from factor AHI.F. contrasts dropped from factor GENDER. contrasts dropped from factor SUBJ. contrasts dropped from factor AHI.F. contrasts dropped from factor GENDER. contrasts dropped from factor SUBJ. contrasts dropped from factor AHI.F. contrasts dropped from factor GENDER. contrasts dropped from factor SUBJ. contrasts dropped from factor AHI.F. contrasts dropped from factor GENDER. contrasts dropped from factor SUBJ. contrasts dropped from factor AHI.F. contrasts dropped from factor GENDER. contrasts dropped from factor SUBJ. contrasts dropped from factor AHI.F. contrasts dropped from factor GENDER. contrasts dropped from factor SUBJ. contrasts dropped from factor AHI.F. contrasts dropped from factor GENDER. contrasts dropped from factor SUBJ|
+helpers|stem|4bca67e50511cd72|37cc829c61ccf7c7|d7cae32246e2c3d0|-2131492832||t20402.5371544975s|s2469b|2469|rds|local|vector|||0.104||
+datafiles|stem|31e4448560576be2|314be5686dab7e35|07e2d5a28b6564ba|1802039208||t20402.5371550641s|s310b|310|rds|local|vector|||0.046||
 fit_bayesian|function|5cb4b609e0b9168c
 re_formulate|function|6f47a45bef1e9b6c
-extract_helpers|function|f9d26fe3c3d7fa2a
-data_paths|function|94141b9ecb64989a
+extract_helpers|function|19b1c2feb28f840a
+targets_regressions|object|744578759291725c
+data_paths|function|dee5724128102ef2
 bh_adjust|function|ae0eb48fe828f64d
 mass|function|846061f7cc2455cf
 rprint|function|7af34ef416b83f41
-preprocess_data|function|f0df2b09c15814b7
+preprocess_data|function|7115001c92aecf00
 extract_rt_variables|function|20504ec59bb30e41
+targets_data|object|87af8b1e342053f1
 zscore|function|d41f32a0966e9a79
+targets_visualisation|object|0b319c9c647c8c4a
+helper_paths|function|bacee43a6c0afe9a
 lm_dia|function|85b6422b008a4ec9
-fit_reg|function|e7aad5d2b247db32
+fit_lm|function|e7aad5d2b247db32
 set_formulas|function|5b89f8957694c394
 model_check|function|96b6d2c86d01dbf9
 lm_coeff|function|7aae469428a7eb29
 freqprop|function|8394a01f868097ae
 msd|function|cb92cdda44518fa1
 zerolead|function|6e34b460b65da301
-import_data|function|84dadeb0160cf7b9
-fit_regressions|function|a2e32751eef3ee8e
+import_data|function|fb31ab85635ecd9b
+fit_regressions|function|5480f9ce0f3d53f7
 extract_coefficients|function|8d2e2f23b19c90d2
 summarise_regressions|function|ec0136a8ebc18ae8
 statextract|function|53eb96b85498feef
 boxplots|function|c0b68b5bce396daa
 describe_data|function|0850d8160c33eb4e
-helpers|stem|5878d09743e82d6b|2eb3332eb2539a9f|c715bcbe73b511be|-2131492832||t20397.6459315627s|s2351b|2351|rds|local|vector|||0.094||
+files|stem|788dec7d47ea7a0a|142472c56a355cac|fd8d989b84073616|-229912786|/Users/josefmana/Desktop/EXCELES/hipposa/data-raw/Tabhippsubfields_lh_new2.xlsx*/Users/josefmana/Desktop/EXCELES/hipposa/data-raw/Tabhippsubfields_rh_new2.xlsx*/Users/josefmana/Desktop/EXCELES/hipposa/data-raw/asegTab.xlsx*/Users/josefmana/Desktop/EXCELES/hipposa/data-raw/RBDBIOPDCON_DATA_2024-07-17_1146.csv*/Users/josefmana/Desktop/EXCELES/hipposa/data-raw/BIOPD_MDSUPDRSIII.xlsx*/Users/josefmana/Desktop/EXCELES/hipposa/data-raw/MTA_table .xlsx*/Users/josefmana/Desktop/EXCELES/hipposa/data-raw/psychs.csv*/Users/josefmana/Desktop/EXCELES/hipposa/data-raw/calculator_final_v7_c_301116.xlsx*/Users/josefmana/Desktop/EXCELES/hipposa/data-raw/subcortical.csv*/Users/josefmana/Desktop/EXCELES/hipposa/data-raw/hippocampus.csv|t20402.5131067858s|s471599b|471599|file|local|vector|||0.014||
