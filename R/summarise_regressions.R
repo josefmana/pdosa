@@ -15,7 +15,7 @@ summarise_regressions <- function(fit) {
     if (y == "hippocampi") {
       lm_coeff(fit[[y]], term = "SUBJ1:AHI.F1") |>
         dplyr::left_join(lm_dia(fit[[y]]), by = c("y","X")) |>
-        dplyr::mutate(dplyr::across(tidyselect::all_of(c("X","coefficient")), re_formulate))
+        dplyr::mutate(dplyr::across(tidyselect::all_of(c("X", "coefficient")), re_formulate))
     } else {
       dplyr::left_join(
         rbind.data.frame(
@@ -27,7 +27,7 @@ summarise_regressions <- function(fit) {
         by = c("y","X")
       ) |>
         dplyr::mutate(
-          dplyr::across(tidyselect::all_of(c("X","coefficient") ), re_formulate),
+          dplyr::across(tidyselect::all_of(c("X","coefficient")), re_formulate),
           sig_FDR = bh_adjust(`p value`) # re-calculate Benjamini-Hochberg adjusted significance statements
         )
     }

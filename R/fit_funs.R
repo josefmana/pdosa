@@ -7,7 +7,7 @@
 #' @param outcomes A character vector of the outcomes
 #'   of interest.
 #' @param X The right side of the linear model.
-#' @param w Indicator whether regression weight shall
+#' @param w Indicator whether regression weights shall
 #'   be used (TRUE) or not(FALSE, default)
 #'
 #' @seealso [fit_regressions()] wraps this function.
@@ -15,12 +15,40 @@
 #' @returns A list with linear models, one per outcome
 #'
 #' @export
-fit_reg <- function(d, outcomes, X = "SUBJ * AHI.F + AGE + GENDER + SBTIV", w = FALSE) {
+fit_lm <- function(d, outcomes, X = "SUBJ * AHI.F + AGE + GENDER + SBTIV", w = FALSE) {
   lapply(rlang::set_names(outcomes), function(y) {
     if (w == TRUE) {
       lm(formula = as.formula(paste(y, X, sep = " ~ ")), data = d, weights = weights)
     } else {
       lm(formula = as.formula(paste(y, X, sep = " ~ ")), data = d, weights = NULL)
+    }
+  })
+}
+
+#' Fit Logistic Regressions
+#'
+#' Loops through outcomes to calculate a set of
+#' logistic regressions.
+#'
+#' @param d The data.
+#' @param outcomes A character vector of the outcomes
+#'   of interest.
+#' @param X The right side of the linear model.
+#' @param w Indicator whether regression weights shall
+#'   be used (TRUE) or not(FALSE, default)
+#'
+#' @seealso [fit_regressions()] wraps this function.
+#'
+#' @returns A list with logistic regression models,
+#'    one per outcome
+#'
+#' @export
+fit_glm <- function(d, outcomes, X = "SUBJ * AHI.F * GENDER", w = FALSE) {
+  lapply(rlang::set_names(outcomes), function(y) {
+    if (w == TRUE) {
+      glm(formula = as.formula(paste(y, X, sep = " ~ ")), data = d, family = binomial(), weights = weights)
+    } else {
+      glm(formula = as.formula(paste(y, X, sep = " ~ ")), data = d, family = binomial(), weights = NULL)
     }
   })
 }
@@ -34,7 +62,7 @@ fit_reg <- function(d, outcomes, X = "SUBJ * AHI.F + AGE + GENDER + SBTIV", w = 
 #' @param help A list with helpers files prepared
 #'   by \code{extract_helpers}
 #'
-#' @seealso [fit_reg()] is used to fit single regression lists.
+#' @seealso [fit_lm()] is used to fit single regression lists.
 #'
 #' @returns A list with linear models, one per outcome
 #'
@@ -46,20 +74,45 @@ fit_regressions <- function(df, help){
   }
   # Set-up formulas:
   forms <- data.frame(
-    object = c("subco","hippo","psych"),
-    y = c("subcortical", "hippocampi","cognition"),
-    X = c(rep("SUBJ * AHI.F + AGE + GENDER + sBTIV", 2), "SUBJ * AHI.F + AGE + GENDER + EDU.Y")
+    object = c(
+      "subco",
+      "hippo",
+      "mta",
+      "psych"
+    ),
+    y = c(
+      "subcortical",
+      "hippocampi",
+      "mta",
+      "cognition"
+    ),
+    X = c(
+      "SUBJ * AHI.F + AGE + GENDER + BMI + sBTIV",
+      "SUBJ * AHI.F + AGE + GENDER + BMI + sBTIV",
+      "SUBJ * AHI.F * GENDER",
+      "SUBJ * AHI.F + AGE + GENDER + EDU.Y + BMI"
+    ),
+    model = c(
+      "lm",
+      "lm",
+      "glm",
+      "lm"
+    )
   )
   # Loop through types of regressions (base vs interaction), and structures
   lapply(rlang::set_names(seq_len(nrow(forms)), forms$y), function(r) {
     with(get(forms[r, "object"]), {
       y <- forms[r, "y"] # extract outcome
-      if(y == "cognition") { # extract variables
+      if (y == "cognition") { # extract variables
         vars <- variable
       } else {
         vars <- unique(name)
       }
-      fit_reg(df, vars, X = forms[r, "X"], w = FALSE) # fit the models
+      if (forms[r, "model"] == "lm") { # fit the models
+        fit_lm(df, vars, X = forms[r, "X"], w = FALSE)
+      } else if (forms[r, "model"] == "glm") {
+        fit_glm(df, vars, X = forms[r, "X"], w = FALSE)
+      }
     })
   })
 }

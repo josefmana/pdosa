@@ -41,7 +41,8 @@ helper_paths <- function(tracker) {
     calculat = here::here("data-raw", "calculator_final_v7_c_301116.xlsx"),
     calc_sheet = "equations",
     subcortex = here::here("data-raw", "subcortical.csv"),
-    hippocampi = here::here("data-raw", "hippocampus.csv")
+    hippocampi = here::here("data-raw", "hippocampus.csv"),
+    mta = here::here("data-raw", "mta.csv")
   )
 }
 

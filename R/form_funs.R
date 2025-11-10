@@ -70,8 +70,8 @@ freqprop <- function(x, d = 0) {
 re_formulate <- function(form) {
   # Prepare a data frame with changes to be made:
   map <- data.frame(
-    old = c("SUBJ", "AGE", "GENDER", "AHI.F", "EDU.Y", "tmt_b", "gpt_phk", "gpt_lhk", "sigma"),
-    new = c("Group", "Age", "Sex", "OSA", "Education", "TMT-B", "GPT right", "GPT left", "\u03C3")
+    old = c("SUBJ", "AGE", "GENDER", "AHI.F", "EDU.Y", "tmt_b", "gpt_phk", "gpt_lhk", "sigma", "BMI"),
+    new = c("Group", "Age", "Sex", "OSA", "Education", "TMT-B", "GPT right", "GPT left", "\u03C3", "BMI")
   )
   # Change it
   for(i in seq_len(nrow(map))) {
@@ -92,16 +92,16 @@ set_formulas <- function() {
   list(
     # Formulas for base models (assuming homoscedasticity):
     varequal = lapply(rlang::set_names(c("tmt_b", "gpt_phk", "gpt_lhk")), function(i) {
-      paste0(i, " ~ SUBJ * AHI.F + AGE + GENDER + EDU.Y") |>
+      paste0(i, " ~ SUBJ * AHI.F + AGE + GENDER + EDU.Y + BMI") |>
         as.formula() |>
         brms::bf()
     }),
     # Formulas for variance adjusted models (allowing heteroscedasticity)
     # (listing them one by one because as.formula does not want work with commas):
     heteroscedastic = list(
-      tmt_b = brms::bf(tmt_b ~ SUBJ * AHI.F + AGE + GENDER + EDU.Y, sigma ~ SUBJ * AHI.F + AGE + GENDER + EDU.Y),
-      gpt_phk = brms::bf(gpt_phk ~ SUBJ * AHI.F + AGE + GENDER + EDU.Y, sigma ~ SUBJ * AHI.F + AGE + GENDER + EDU.Y),
-      gpt_lhk = brms::bf(gpt_lhk ~ SUBJ * AHI.F + AGE + GENDER + EDU.Y, sigma ~ SUBJ * AHI.F + AGE + GENDER + EDU.Y)
+      tmt_b = brms::bf(tmt_b ~ SUBJ * AHI.F + AGE + GENDER + EDU.Y + BMI, sigma ~ SUBJ * AHI.F + AGE + GENDER + EDU.Y + BMI),
+      gpt_phk = brms::bf(gpt_phk ~ SUBJ * AHI.F + AGE + GENDER + EDU.Y + BMI, sigma ~ SUBJ * AHI.F + AGE + GENDER + EDU.Y + BMI),
+      gpt_lhk = brms::bf(gpt_lhk ~ SUBJ * AHI.F + AGE + GENDER + EDU.Y + BMI, sigma ~ SUBJ * AHI.F + AGE + GENDER + EDU.Y + BMI)
     )
   )
 }

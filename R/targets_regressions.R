@@ -6,7 +6,7 @@ targets_regressions <- list(
   ),
   targets::tar_target(
     summaries,
-    command = summarise_regressions(regressions)
+    command = summarise_regressions(regressions[c("subcortical", "hippocampi", "cognition")]) # omit MTA regression in this step
   ),
   targets::tar_target(
     formulas,
