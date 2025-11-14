@@ -16,7 +16,7 @@ summarise_regressions <- function(fit) {
       lm_coeff(fit[[y]], term = "SUBJ1:AHI.F1") |>
         dplyr::left_join(lm_dia(fit[[y]]), by = c("y","X")) |>
         dplyr::mutate(dplyr::across(tidyselect::all_of(c("X", "coefficient")), re_formulate))
-    } else {
+    } else if (y %in% c("subcortical", "cognition")) {
       dplyr::left_join(
         rbind.data.frame(
           lm_coeff(fit[[y]], term = "SUBJ1"),
@@ -29,6 +29,19 @@ summarise_regressions <- function(fit) {
         dplyr::mutate(
           dplyr::across(tidyselect::all_of(c("X","coefficient")), re_formulate),
           sig_FDR = bh_adjust(`p value`) # re-calculate Benjamini-Hochberg adjusted significance statements
+        )
+    } else if (y == "mta") {
+      compute_marginal_rates(fit = fit[[y]][[1]], tibble = TRUE)
+    } else if (y == "cognition|hippocampi") {
+      purrr::map_dfr(rlang::set_names(names(fit$`cognition|hippocampi`)), function(x) {
+        lm_coeff(fit$`cognition|hippocampi`[[x]], term = glue::glue("SUBJ1:{x}")) |>
+          tibble::add_column(x = x, .after = 1) |>
+          dplyr::left_join(lm_dia(fit$`cognition|hippocampi`[[x]]), by = c("y", "X"))
+      }) |>
+        dplyr::mutate(
+          dplyr::across(tidyselect::all_of(c("X","coefficient")), re_formulate),
+          sig_FDR = bh_adjust(`p value`), # re-calculate Benjamini-Hochberg adjusted significance statements
+          sig_FWER = dplyr::if_else(`p value` < 0.05 / dplyr::n(), "*", "")
         )
     }
   })

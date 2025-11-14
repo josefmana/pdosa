@@ -58,49 +58,27 @@ fit_glm <- function(d, outcomes, X = "SUBJ * AHI.F * GENDER", w = FALSE) {
 #' Loops through outcomes to calculate a set of
 #' linear regressions.
 #'
-#' @param df The data frame
+#' @param df The data frame.
+#' @param setup A set-up file as prepared by
+#'    \code{setup_regressions}.
 #' @param help A list with helpers files prepared
-#'   by \code{extract_helpers}
+#'    by \code{extract_helpers}.
 #'
 #' @seealso [fit_lm()] is used to fit single regression lists.
 #'
 #' @returns A list with linear models, one per outcome
 #'
 #' @export
-fit_regressions <- function(df, help){
+fit_regressions <- function(df, setup, help){
   # Extract helpers:
   for (i in names(help)) {
     assign(i, help[[i]])
   }
-  # Set-up formulas:
-  forms <- data.frame(
-    object = c(
-      "subco",
-      "hippo",
-      "mta",
-      "psych"
-    ),
-    y = c(
-      "subcortical",
-      "hippocampi",
-      "mta",
-      "cognition"
-    ),
-    X = c(
-      "SUBJ * AHI.F + AGE + GENDER + BMI + sBTIV",
-      "SUBJ * AHI.F + AGE + GENDER + BMI + sBTIV",
-      "SUBJ * AHI.F * GENDER",
-      "SUBJ * AHI.F + AGE + GENDER + EDU.Y + BMI"
-    ),
-    model = c(
-      "lm",
-      "lm",
-      "glm",
-      "lm"
-    )
-  )
+  # Read the formulas set-up:
+  forms <- setup |> dplyr::filter(is.na(x)) # the main analyses
+  forms2 <- setup |> dplyr::filter(!is.na(x)) # regressing cognition on hippocampi
   # Loop through types of regressions (base vs interaction), and structures
-  lapply(rlang::set_names(seq_len(nrow(forms)), forms$y), function(r) {
+  fits <- lapply(rlang::set_names(seq_len(nrow(forms)), forms$y), function(r) {
     with(get(forms[r, "object"]), {
       y <- forms[r, "y"] # extract outcome
       if (y == "cognition") { # extract variables
@@ -115,6 +93,16 @@ fit_regressions <- function(df, help){
       }
     })
   })
+  # Add 'cognition on hippocampi' regressions:
+  fits$`cognition|hippocampi` <- lapply(rlang::set_names(seq_len(nrow(forms2)), forms2$x), function(r) {
+    with(get(forms2[r, "object"]), {
+      y <- forms[r, "y"]
+      vars <- variable
+      fit_lm(df, vars, X = forms2[r, "X"], w = FALSE)
+    })
+  })
+  # Return the fits:
+  fits
 }
 
 #' Fit Bayesian Regressions

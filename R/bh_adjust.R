@@ -19,7 +19,8 @@ bh_adjust <- function(p) {
     dplyr::mutate(sig = dplyr::if_else(p <= thres, TRUE, FALSE)) |>
     dplyr::filter(sig == TRUE) |>
     dplyr::select(thres) |>
-    max()
+    max() |>
+    suppressWarnings() # for cases with nothing significant
   # Return stars based on this threshold:
   dplyr::if_else(p < bh_thres, "*", "")
 }
