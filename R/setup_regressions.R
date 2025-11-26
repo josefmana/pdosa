@@ -33,8 +33,10 @@ setup_regressions <- function(help, MoCA = FALSE) {
     ),
     x = NA,
     X = c(
-      paste0("SUBJ * AHI.F + AGE + GENDER + BMI + sBTIV", ifelse(MoCA, " + moca", "")),
-      paste0("SUBJ * AHI.F + AGE + GENDER + BMI + sBTIV", ifelse(MoCA, " + moca", "")),
+      #paste0("SUBJ * AHI.F + AGE + GENDER + BMI + sBTIV", ifelse(MoCA, " + moca", "")),
+      #paste0("SUBJ * AHI.F + AGE + GENDER + BMI + sBTIV", ifelse(MoCA, " + moca", "")),
+      paste0(ifelse(MoCA, "moca * ", ""), "SUBJ * AHI.F + AGE + GENDER + BMI + sBTIV"),
+      paste0(ifelse(MoCA, "moca * ", ""), "SUBJ * AHI.F + AGE + GENDER + BMI + sBTIV"),
       "SUBJ * AHI.F * GENDER",
       "SUBJ * AHI.F + AGE + GENDER + EDU.Y + BMI"
     ),

@@ -15,7 +15,7 @@ targets_sensitivity <- list(
   targets::tar_target(
     bayesian_regressions,
     command = fit_bayesian(preprocessed_data, formulas),
-    tar_cue = tagets::cue("never") # save time
+    cue = targets::tar_cue("never") # save time
   ),
   targets::tar_target(
     prior_sensitivity,
