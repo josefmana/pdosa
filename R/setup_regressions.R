@@ -5,6 +5,10 @@
 #'
 #' @param help A list with helpers files prepared
 #'   by \code{extract_helpers}.
+#' @param MoCA A logical indicating whether MoCA ought
+#'   to be added as covariate to volume analyses (`TRUE`)
+#'   or not (`FALSE`, default). A dirty trick to accommodate
+#'   Reviewer 1's in NPJ comment.
 #'
 #' @seealso [fit_regressions()] makes use of the outcome
 #'    of this function.
@@ -12,7 +16,7 @@
 #' @returns A list with linear models, one per outcome.
 #'
 #' @export
-setup_regressions <- function(help) {
+setup_regressions <- function(help, MoCA = FALSE) {
   # Set-up basic formulas:
   forms <- data.frame(
     object = c(
@@ -29,8 +33,8 @@ setup_regressions <- function(help) {
     ),
     x = NA,
     X = c(
-      "SUBJ * AHI.F + AGE + GENDER + BMI + sBTIV",
-      "SUBJ * AHI.F + AGE + GENDER + BMI + sBTIV",
+      paste0("SUBJ * AHI.F + AGE + GENDER + BMI + sBTIV", ifelse(MoCA, " + moca", "")),
+      paste0("SUBJ * AHI.F + AGE + GENDER + BMI + sBTIV", ifelse(MoCA, " + moca", "")),
       "SUBJ * AHI.F * GENDER",
       "SUBJ * AHI.F + AGE + GENDER + EDU.Y + BMI"
     ),

@@ -24,7 +24,17 @@ describe_data <- function(data) {
     "mds_updrs_iii_total",
     "mds_updrs_iii_axial",
     "mds_updrs_iii_rigidityakineasia",
-    "mds_updrs_iii_tremor"
+    "mds_updrs_iii_tremor",
+    "UPSIT",
+    "uric_acid",
+    "urea",
+    "creatinine",
+    "cholesterol",
+    "TAG",
+    "TSH",
+    "fT4",
+    "glucose",
+    "Fazekas"
   )
   nomin <- c(
     "GENDER",
@@ -56,7 +66,7 @@ describe_data <- function(data) {
     tibble::rownames_to_column("y")
   # Add statistical analysis results of variables present in both PD and HC:
   tab1 <- dplyr::left_join(
-    tab1, purrr::map_dfr(cont[c(1:3, 6)], function(y) {
+    tab1, purrr::map_dfr(cont[c(1:3, 6, 13:length(cont))], function(y) {
       summary(lm(as.formula( paste0(y," ~ SUBJ * AHI.F")), data = d0))$coefficients[ , c("t value", "Pr(>|t|)")] |>
         statextract(y = y, stat = "t")
     }),

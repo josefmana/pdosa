@@ -15,5 +15,6 @@ options(mc.cores = parallel::detectCores())
 list(
   targets_data,
   targets_regressions,
-  targets_visualisation
+  targets_visualisation,
+  targets_sensitivity
 )

@@ -281,7 +281,7 @@ draw_violins <- function(d0, df, fit, help, scl, rt_vars, which = "brains") {
       ggplot2::labs(y = "Test score", x = NULL) +
       ggplot2::facet_wrap(~ test, scales = "free", nrow = 5) +
       ggplot2::scale_fill_manual(values = c("deepskyblue", "red2")) +
-      ggplot2::scale_colour_manual(values = c("navyblue","brown")) +
+      ggplot2::scale_colour_manual(values = c("navyblue","black")) +
       ggpubr::stat_pvalue_manual( # p-values for simple main effects
         subset(p, !is.na(OSA)),
         label = "p",

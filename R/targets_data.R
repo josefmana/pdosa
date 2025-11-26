@@ -3,15 +3,18 @@ targets_data <- list(
   targets::tar_target(
     files, # For tracking purposes
     command = unlist(c(data_paths(), helper_paths())) |> purrr::keep(\(x) grepl("\\.", x)),
-    format = "file"
+    format = "file",
+    cue = targets::tar_cue("always")
   ),
   targets::tar_target(
     datafiles,
-    command = data_paths(files)
+    command = data_paths(files),
+    cue = targets::tar_cue("always")
   ),
   targets::tar_target(
     helpers,
-    command = extract_helpers(helper_paths(files))
+    command = extract_helpers(helper_paths(files)),
+    cue = targets::tar_cue("always")
   ),
   targets::tar_target(
     raw_data,

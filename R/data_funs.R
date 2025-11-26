@@ -18,7 +18,7 @@ data_paths <- function(tracker) {
     subcor = here::here("data-raw", "asegTab.xlsx"),
     psych = here::here("data-raw", "RBDBIOPDCON_DATA_2024-07-17_1146.csv"),
     motor = here::here("data-raw", "BIOPD_MDSUPDRSIII.xlsx"),
-    mta = here::here("data-raw", "MTA_table .xlsx")
+    mta = here::here("data-raw", "MTA_plus_.xlsx")
   )
 }
 
@@ -79,8 +79,18 @@ import_data <- function(files, helpers) {
         suffix = c("_rhx", "_lhx")
       ) |>
         dplyr::select(Study.ID, tidyselect::all_of(helpers$hippo$var)),
-      mta = openxlsx::read.xlsx(mta) |>
-        dplyr::select(Study.ID, tidyselect::contains("MTA")),
+      mta = openxlsx::read.xlsx(mta, na.string = "N") |>
+        dplyr::select(
+          Study.ID, tidyselect::contains("MTA"),
+          UPSIT, uric_acid, urea, creatinine,
+          cholesterol, TAG, TSH, fT4, glucose, Fazekas
+        ) |>
+        dplyr::mutate(
+          dplyr::across(
+            c(UPSIT, uric_acid, urea, creatinine, cholesterol, TAG, TSH, fT4, glucose, Fazekas), # dirty, not much time
+            .fns = as.numeric
+          )
+        ),
       # Psychology data
       psych = read.csv(psych, sep = ",") |>
         dplyr::mutate(
@@ -140,16 +150,10 @@ import_data <- function(files, helpers) {
     edu_top = c(12, Inf, 12, Inf),
     threshold = c(49, 52, 50, 53)
   )
-  # Prepare a table for MoCA (i.e., lvl. I) (based on https://doi.org/10.1080/23279095.2015.1065261):
-  moca_thresh <- data.frame(
-    age_bottom = c(0, 0, 74, 74),
-    age_top = c(74, 74, Inf, Inf),
-    edu_bottom = c(0, 12, 0, 12),
-    edu_top = c(12, Inf, 12, Inf),
-    M = c(24.62, 26.43, 22.98, 24.79),
-    SD = c(2.66, 2.37, 2.88, 2.47)
-  ) |>
-    dplyr::mutate(threshold = M - 1.5 * SD)
+  # Prepare a table for MoCA (i.e., lvl. I)
+  # (based on https://doi.org/10.1093/arclin/acaa039 and
+  # https://doi.org/10.1177/1073191118778896):
+  moca_thresh <- 25.5
   # Add MCI flag for each test of each patient:
   mci <- data |>
     dplyr::filter(SUBJ == "PD") |> # keep patients only
@@ -174,7 +178,7 @@ import_data <- function(files, helpers) {
       }),
       PDMCI_I = sapply(seq_len(dplyr::n()), function(i) {
         ifelse(
-          test = moca[i] <= with(moca_thresh, threshold[AGE[i] > age_bottom & AGE[i] <= age_top & EDU.Y[i] > edu_bottom & EDU.Y[i] <= edu_top]),
+          moca[i] <= moca_thresh,
           yes = 1,
           no = 0
         )
@@ -247,7 +251,7 @@ preprocess_data <- function(data, help, rt_vars, return = "df") {
   # Extract scaling values, i.e.,
   # enrollment full sample means and SDs
   scl <- sapply(
-    c("AGE", "EDU.Y", "BMI", "sBTIV", help$subco$name, unique(help$hippo$name), help$psych$variable),
+    c("AGE", "EDU.Y", "BMI", "sBTIV", "moca", help$subco$name, unique(help$hippo$name), help$psych$variable),
     function(i) {
       with(df, c(M = mean(get(i), na.rm = TRUE), SD = sd(get(i), na.rm = TRUE)))
     }) |>
