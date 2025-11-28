@@ -34,7 +34,19 @@ describe_data <- function(data) {
     "TSH",
     "fT4",
     "glucose",
-    "Fazekas"
+    "Fazekas",
+    "orto_tk_leh_sys",
+    "orto_tk_leh_dia",
+    "orto_tk_0_sys",
+    "orto_tk_0_dia",
+    "orto_tk_1_sys",
+    "orto_tk_1_dia",
+    "orto_tk_3_sys",
+    "orto_tk_3_dia",
+    "orto_pulz_leh",
+    "orto_pulz_0",
+    "orto_pulz_1",
+    "orto_pulz_3"
   )
   nomin <- c(
     "GENDER",
@@ -42,14 +54,38 @@ describe_data <- function(data) {
     "Path_MTA_A",
     "Path_MTA_H",
     "PDMCI_I",
-    "PDMCI_II"
+    "PDMCI_II",
+    "orto_hypo",
+    "an_rodina",
+    "demence_rodina",
+    "pn_rodina",
+    "tres_rodina",
+    "rbd_rodina",
+    "uraz_opakovane",
+    "uzkost_opak_kont",
+    "deprese_opak_kont",
+    "psychatricka_onemocneni",
+    "hypercholesterolemie",
+    "ichs",
+    "arytmie",
+    "hypertenze",
+    "diabetes_mellitus",
+    "thyreopatie",
+    "icmp",
+    "epilepsie",
+    "polyneuropatie",
+    "migreny",
+    "encefalitis",
+    "hcmp",
+    "glaukom",
+    "rls"
   )
   # Pre-process data:
   d0 <- data |>
     dplyr::mutate(dplyr::across(tidyselect::all_of(c(nomin, "SUBJ", "AHI.F")), as.factor)) |>
     within({
-      contrasts(SUBJ) <- -contr.sum(2)/2 # CON = -0.5, PD = 0.5
-      contrasts(AHI.F) <- -contr.sum(2)/2 # High = -0.5, Low = 0.5
+      contrasts(SUBJ) <- -contr.sum(2) / 2 # CON = -0.5, PD = 0.5
+      contrasts(AHI.F) <- -contr.sum(2) / 2 # High = -0.5, Low = 0.5
     })
   # Prepare a table with descriptions
   tab1 <- d0 |>
@@ -73,7 +109,15 @@ describe_data <- function(data) {
     by = "y"
   )
   # Add logistic regression for common variables:
-  for(i in c("GENDER", "Path_MTA_A", "Path_MTA_H")) {
+  nomintest <- sapply(nomin, function(x) {
+    if (stringr::str_detect(x, "MCI")) {
+      FALSE
+    } else {
+      ncol(table(d0[ , c("GROUP", x)])) == 2
+    }
+  })
+  nomintest <- nomin[nomintest]
+  for (i in nomintest) {
     tab1[tab1$y == i, c("SUBJ1", "AHI.F1", "SUBJ1:AHI.F1")] <-
       summary(glm(as.formula(paste0(i, " ~ SUBJ * AHI.F")), family = binomial(), data = d0))$coefficients[ , c("z value","Pr(>|z|)")] |>
       statextract(y = i, stat = "z") |>
@@ -81,7 +125,7 @@ describe_data <- function(data) {
   }
   # Add logistic regression for iRBD and PD-MCI level I
   #for(i in c("RBD","PDMCI_I")) {
-  for(i in c("PDMCI_I", "PDMCI_II")) {
+  for (i in c("PDMCI_I", "PDMCI_II")) {
     tab1[tab1$y == i, "AHI.F1"] <- summary(
       glm(
         as.formula(paste0(i," ~ AHI.F")),
@@ -93,7 +137,7 @@ describe_data <- function(data) {
       dplyr::select(-y)
   }
   # Add results of continuous variables for PD only:
-  for(i in with(tab1, y[CONH == "-"] )[-1:-2]) {
+  for (i in with(tab1, y[CONH == "-"] )[-1:-2]) {
     tab1[ tab1$y == i, "AHI.F1"] <-
       summary(lm(as.formula(paste0(i," ~ AHI.F")), data = d0))$coefficients[ , c("t value", "Pr(>|t|)")] |>
       statextract(y = i, stat = "t") |>

@@ -32,4 +32,5 @@ Imports:
     targets,
     gridExtra,
     glue,
-    stringr
+    stringr,
+    GGally

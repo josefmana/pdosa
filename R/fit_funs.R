@@ -12,7 +12,7 @@
 #'
 #' @seealso [fit_regressions()] wraps this function.
 #'
-#' @returns A list with linear models, one per outcome
+#' @returns A list with linear models, one per outcome.
 #'
 #' @export
 fit_lm <- function(d, outcomes, X = "SUBJ * AHI.F + AGE + GENDER + SBTIV", w = FALSE) {

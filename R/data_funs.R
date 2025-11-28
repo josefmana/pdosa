@@ -18,7 +18,9 @@ data_paths <- function(tracker) {
     subcor = here::here("data-raw", "asegTab.xlsx"),
     psych = here::here("data-raw", "RBDBIOPDCON_DATA_2024-07-17_1146.csv"),
     motor = here::here("data-raw", "BIOPD_MDSUPDRSIII.xlsx"),
-    mta = here::here("data-raw", "MTA_plus_.xlsx")
+    mta = here::here("data-raw", "MTA_plus_.xlsx"),
+    mta_plus = here::here("data-raw", "MTA_plus_doplnění_merged.xlsx"),
+    synthseg = here::here("data-raw", "synthseg_vol_WIDE_ALL_subjects.xlsx")
   )
 }
 
@@ -85,11 +87,31 @@ import_data <- function(files, helpers) {
           UPSIT, uric_acid, urea, creatinine,
           cholesterol, TAG, TSH, fT4, glucose, Fazekas
         ) |>
+        dplyr::left_join(
+          openxlsx::read.xlsx(mta_plus, na.string = "N")
+        ) |>
         dplyr::mutate(
           dplyr::across(
-            c(UPSIT, uric_acid, urea, creatinine, cholesterol, TAG, TSH, fT4, glucose, Fazekas), # dirty, not much time
+            c(UPSIT, uric_acid, urea, creatinine, cholesterol, TAG, TSH, fT4, glucose, Fazekas, tidyselect::contains("orto")), # dirty, not much time
             .fns = as.numeric
           )
+        ) |>
+        dplyr::left_join(
+          openxlsx::read.xlsx(synthseg) |>
+            dplyr::select(SubjectID, tidyselect::contains("hippocampus")) |>
+            dplyr::rename(
+              "Study.ID" = "SubjectID",
+              "Left_Hippocampus_synthseg" = "left.hippocampus",
+              "Right_Hippocampus_synthseg" = "right.hippocampus"
+            ) |>
+            dplyr::mutate(
+              dplyr::across(
+                .cols = tidyselect::contains("Hippocampus"),
+                .fns = \(x) (x - mean(x, na.rm = TRUE)) / sd(x, na.rm = TRUE),
+                .names = "{.col}_scaled"
+              )
+            ),
+          by = dplyr::join_by(Study.ID)
         ),
       # Psychology data
       psych = read.csv(psych, sep = ",") |>

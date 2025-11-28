@@ -28,5 +28,9 @@ targets_sensitivity <- list(
   targets::tar_target(
     bayesian_coefficients,
     command = extract_coefficients(bayesian_regressions)
+  ),
+  targets::tar_target(
+    hippocampi_correlations,
+    command = correlate_volumes(raw_data, preprocessed_data, helpers)
   )
 )

@@ -14,30 +14,35 @@
 correlate_volumes <- function(d0, d1, help) {
   # Extract variable of interest names:
   struct <- tibble::tibble(
-    side = c(rep("Left", 4), rep("Right", 4)),
-    source = rep(c("recon-all", "Freesurfer 8.0.0"), 4),
-    measure = rep(c(rep("raw", 2), rep("scaled", 2)), 2),
+    side = c(rep("Left", 6), rep("Right", 6)),
+    source = rep(c("aseg.stat", "segmentHA", "synthseg"), 4),
+    measure = rep(c(rep("raw", 3), rep("scaled", 3)), 2),
+    data = c(rep("d0", 3), rep("d1", 2), rep("d0", 4), rep("d1", 2), "d0"),
     column = c(
       subset(help$subco, structure == "Hippocampus" & side == "Left")$name,
       subset(help$hippo, structure == "Hippocampus" & side == "Left")$var,
+      "Left_Hippocampus_synthseg",
       subset(help$subco, structure == "Hippocampus" & side == "Left")$name,
       subset(help$hippo, structure == "Hippocampus" & side == "Left")$name,
+      "Left_Hippocampus_synthseg_scaled",
       subset(help$subco, structure == "Hippocampus" & side == "Right")$name,
       subset(help$hippo, structure == "Hippocampus" & side == "Right")$var,
+      "Right_Hippocampus_synthseg",
       subset(help$subco, structure == "Hippocampus" & side == "Right")$name,
-      subset(help$hippo, structure == "Hippocampus" & side == "Right")$name
+      subset(help$hippo, structure == "Hippocampus" & side == "Right")$name,
+      "Right_Hippocampus_synthseg_scaled"
     )
   )
   # Prepare data:
   df <- d0 |>
     dplyr::select(
       Study.ID, SUBJ, AHI.F,
-      tidyselect::all_of(subset(struct, measure == "raw")$column)
+      tidyselect::all_of(subset(struct, data == "d0")$column)
     ) |>
     dplyr::left_join(
       d1 |> dplyr::select(
         Study.ID, SUBJ, AHI.F,
-        tidyselect::all_of(subset(struct, measure == "scaled")$column)
+        tidyselect::all_of(subset(struct, data == "d1")$column)
       ),
       by = dplyr::join_by(Study.ID, SUBJ, AHI.F),
       suffix = c("_raw", "_scaled")
@@ -47,19 +52,21 @@ correlate_volumes <- function(d0, d1, help) {
       OSA = dplyr::if_else(AHI.F == "H", TRUE, FALSE)
     ) |>
     dplyr::rename( # dirty by hand to save time
-      "Raw_Left_recon-all" = "Left_Hippocampus_raw",
-      "Raw_Left_Freesurfer 8.0.0" = "Whole_hippocampus_lhx",
-      "Scaled_Left_recon-all" = "Left_Hippocampus_scaled",
-      "Scaled_Left_Freesurfer 8.0.0" = "Hippocampus_left_AI",
-      "Raw_Right_recon-all" = "Right_Hippocampus_raw",
-      "Raw_Right_Freesurfer 8.0.0" = "Whole_hippocampus_rhx",
-      "Scaled_Right_recon-all" = "Right_Hippocampus_scaled",
-      "Scaled_Right_Freesurfer 8.0.0" = "Hippocampus_right_AI"
-    )
-  # Plot it:
-  df |>
+      "Raw_Left_aseg.stat" = "Left_Hippocampus_raw",
+      "Raw_Left_segmentHA" = "Whole_hippocampus_lhx",
+      "Raw_Left_synthseg" = "Left_Hippocampus_synthseg",
+      "Scaled_Left_aseg.stat" = "Left_Hippocampus_scaled",
+      "Scaled_Left_segmentHA" = "Hippocampus_left_AI",
+      "Scaled_Left_synthseg" = "Left_Hippocampus_synthseg_scaled",
+      "Raw_Right_aseg.stat" = "Right_Hippocampus_raw",
+      "Raw_Right_segmentHA" = "Whole_hippocampus_rhx",
+      "Raw_Right_synthseg" = "Right_Hippocampus_synthseg",
+      "Scaled_Right_aseg.stat" = "Right_Hippocampus_scaled",
+      "Scaled_Right_segmentHA" = "Hippocampus_right_AI",
+      "Scaled_Right_synthseg" = "Right_Hippocampus_synthseg_scaled",
+    ) |>
     tidyr::pivot_longer(
-      cols = matches("^(Raw|Scaled)_(Left|Right)"),
+      cols = dplyr::matches("^(Raw|Scaled)_(Left|Right)"),
       names_to = c("scale", "side", "algo"),
       names_pattern = "^(Raw|Scaled)_(Left|Right)_(.*)$",
       values_to = "value"
@@ -67,44 +74,58 @@ correlate_volumes <- function(d0, d1, help) {
     # Clean algorithm names
     dplyr::mutate(
       scale = factor(scale, levels = c("Raw", "Scaled")),
-      side  = factor(side,  levels = c("Left", "Right")),
-      algo  = factor(algo,  levels = c("Freesurfer 8.0.0", "recon-all"))
+      side = factor(side, levels = c("Left", "Right")),
+      algo = factor(algo, levels = c("aseg.stat", "segmentHA", "synthseg"))
     ) |>
     tidyr::pivot_wider(
       names_from = algo,
       values_from = value,
       id_cols = c(Study.ID, SUBJ, OSA, scale, side)
     ) |>
-    ggplot2::ggplot() +
-    ggplot2::aes(x = `Freesurfer 8.0.0`, y = `recon-all`) +
-    ggplot2::geom_point(
-      ggplot2::aes(color = OSA, fill = OSA),
-      shape = 21,
-      size = 2,
-      alpha = 0.8
-    ) +
-    ggplot2::geom_smooth(
-      ggplot2::aes(color = OSA, fill = OSA),
-      method = "lm",
-      linewidth = 0.5,
-      alpha = 0.1
-    ) +
-    ggplot2::geom_abline(
-      slope = 1, intercept = 0, colour = "red", linetype = 2
-    ) +
-    ggpubr::stat_cor(
-      ggplot2::aes(label = ggplot2::after_stat(r.label)),
-      label.x.npc = "left",
-      label.y.npc = "top",
-      size = 3.5
-    ) +
-    ggh4x::facet_grid2(SUBJ + side ~ scale, scales = "free", independent = "all") +
-    ggplot2::scale_colour_manual(values = c("#64CDCC","#F9A729")) +
-    ggplot2::scale_fill_manual(values = c("#64CDCC","#F9A729")) +
-    ggplot2::theme_bw() +
-    ggplot2::theme(
-      strip.background = ggplot2::element_rect(fill = "grey90"),
-      panel.grid = ggplot2::element_blank(),
-      legend.position = "bottom"
+    dplyr::mutate(group = dplyr::case_when(
+      SUBJ == "PD" & OSA ~ "PD, OSA+",
+      SUBJ == "CON" & OSA ~ "HC, OSA+",
+      SUBJ == "PD" & !OSA ~ "PD, OSA-",
+      SUBJ == "CON" & !OSA ~ "HC, OSA-"
+    ))
+  # Plot it:
+  lapply(rlang::set_names(unique(df$scale)), function(i) {
+    pairplot_fun(subset(df, scale == i), i)
+  })
+}
+
+#' Pair plots
+#'
+#' Helper function for plotting associations
+#' of pairs of variable as scatter plots accompanied
+#' by Pearson's correlation coefficients.
+#'
+#' @param data Tibble. Raw data.
+#' @param group_title Character. Title of the plot.
+#'
+#' @retuns List of {GGally} pair plots.
+#'
+#' @export
+pairplot_fun <- function(data, group_title = "") {
+  data |>
+    GGally::ggpairs(
+      title = group_title,
+      columns = c("aseg.stat", "segmentHA", "synthseg"),
+      mapping = ggplot2::aes(colour = group),
+      upper = list(
+        continuous = GGally::wrap("cor", size = 4)
+      ),
+      lower = list(
+        continuous = function(data, mapping, ...) {
+          ggplot2::ggplot(data, mapping) +
+            ggplot2::geom_point(alpha = 0.6) +
+            ggplot2::geom_abline(
+              slope = 1, intercept = 0, colour = "black"
+            )
+        }
+      ),
+      diag  = list(
+        continuous = GGally::wrap("densityDiag", alpha = .5, colour = NA)
+      )
     )
 }
