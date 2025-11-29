@@ -27,26 +27,35 @@ setup_regressions <- function(help, MoCA = FALSE, addons = "") {
       "subco",
       "hippo",
       "mta",
+      "mta",
+      "mta",
       "psych"
     ),
     y = c(
       "subcortical",
       "hippocampi",
       "mta",
+      "mta_2way",
+      "mta_3way",
       "cognition"
     ),
     x = NA,
     X = c(
       #paste0("SUBJ * AHI.F + AGE + GENDER + BMI + sBTIV", ifelse(MoCA, " + moca", "")),
       #paste0("SUBJ * AHI.F + AGE + GENDER + BMI + sBTIV", ifelse(MoCA, " + moca", "")),
+      #paste0("SUBJ * AHI.F + AGE + GENDER + BMI + sBTIV", ifelse(MoCA, " + moca", "")),
       paste0(ifelse(MoCA, "moca * ", ""), "SUBJ * AHI.F + AGE + GENDER + BMI + sBTIV", addons),
       paste0(ifelse(MoCA, "moca * ", ""), "SUBJ * AHI.F + AGE + GENDER + BMI + sBTIV", addons),
+      paste0(ifelse(MoCA, "moca * ", ""), "SUBJ * AHI.F + AGE + GENDER + BMI + sBTIV", addons),
+      "SUBJ * AHI.F",
       "SUBJ * AHI.F * GENDER",
       "SUBJ * AHI.F + AGE + GENDER + EDU.Y + BMI"
     ),
     model = c(
       "lm",
       "lm",
+      "glm",
+      "glm",
       "glm",
       "lm"
     )

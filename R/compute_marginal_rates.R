@@ -19,10 +19,20 @@ compute_marginal_rates <- function(fit, tibble = TRUE) {
   form <- glue::glue("~ {as.character(formula(fit))[3]}")
   # Extract marginal means and pairwise comparisons:
   purrr::map(list(latent = NULL, reponse = "response"), function(i) {
-    emm <- emmeans::emmeans(fit, as.formula(form), type = i)
-    out <- list(means = summary(emm), contrasts = pairs(emm, adjust = "none"))
+    emm0 <- emmeans::emmeans(fit, ~ SUBJ * AHI.F, type = i)
+    emm1 <- emmeans::emmeans(fit, as.formula(form), type = i)
+    out <- list(
+      two_way = list(means = summary(emm0), contrasts = pairs(emm0, adjust = "none")),
+      full = list(means = summary(emm1), contrasts = pairs(emm1, adjust = "none"))
+    )
     if (tibble) {
-      out <- lapply(out, \(i) tibble::as_tibble(i))
+      out <- list(
+        two_way = lapply(out$two_way, \(i) tibble::as_tibble(i)),
+        full = lapply(out$full, \(i) tibble::as_tibble(i))
+      )
+    }
+    if (form == "~ SUBJ * AHI.F") {
+      out <- out$two_way
     }
     out
   })

@@ -30,7 +30,7 @@ summarise_regressions <- function(fit) {
           dplyr::across(tidyselect::all_of(c("X","coefficient")), re_formulate),
           sig_FDR = bh_adjust(`p value`) # re-calculate Benjamini-Hochberg adjusted significance statements
         )
-    } else if (y == "mta") {
+    } else if (stringr::str_detect(y, "mta")) {
       compute_marginal_rates(fit = fit[[y]][[1]], tibble = TRUE)
     } else if (y == "cognition|hippocampi") {
       purrr::map_dfr(rlang::set_names(names(fit$`cognition|hippocampi`)), function(x) {

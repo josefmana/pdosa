@@ -53,7 +53,7 @@ table_descriptives <- function(stats, vars, labs = NULL, note = "") {
     ) |>
     gt::gt(rowname_col = "y") |>
     gt::cols_align(columns = -1, align = "center") |>
-    gt::tab_spanner(columns = tidyselect::starts_with("CON"), label = "HC") |>
+    gt::tab_spanner(columns = tidyselect::starts_with("CON"), label = "CON") |>
     gt::tab_spanner(columns = tidyselect::starts_with("PD"), label = "PD") |>
     gt::tab_spanner(columns = tidyselect::ends_with("1"), label = "Inference statistics") |>
     gt::tab_spanner(columns = tidyselect::all_of(c("CONH", "CONL", "PDH", "PDL")), label = "Descriptive statistics") |>
