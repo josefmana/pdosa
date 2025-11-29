@@ -230,7 +230,7 @@ draw_heatmap <- function(tab, data, rts, help, pal = "warm") {
       ggplot2::theme(legend.position = "none", panel.grid = ggplot2::element_blank())
   })
   # Pull the plots to a single figure:
-  scatters <- gridExtra::arrangeGrob(grobs = interplots, ncol = 3, nrow = 6)
+  scatters <- gridExtra::arrangeGrob(grobs = interplots, ncol = 4, nrow = 5)
   # Return both plots:
   list(heatmap = heatmap, scatters = scatters)
 }

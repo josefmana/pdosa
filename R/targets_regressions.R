@@ -11,9 +11,5 @@ targets_regressions <- list(
   targets::tar_target(
     summaries,
     command = summarise_regressions(regressions)
-  ),
-  targets::tar_target(
-    formulas,
-    command = set_formulas()
   )
 )

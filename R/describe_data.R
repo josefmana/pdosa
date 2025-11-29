@@ -144,5 +144,7 @@ describe_data <- function(data) {
       dplyr::select(-y)
   }
   # Return the table:
-  tab1
+  tab1 |>
+    dplyr::relocate(PDH, .before = CONH) |>
+    dplyr::relocate(PDL, .after = PDH)
 }

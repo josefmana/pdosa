@@ -1,6 +1,6 @@
 # Set-up targets for "sensitivity analyses":
 targets_sensitivity <- list(
-  targets::tar_target(
+  targets::tar_target( # MoCA as covariate in interaction ----
     setup_moca_cov,
     command = setup_regressions(helpers, MoCA = TRUE)
   ),
@@ -11,6 +11,26 @@ targets_sensitivity <- list(
   targets::tar_target(
     summaries_moca_cov,
     command = summarise_regressions(regressions_moca_cov)
+  ),
+  targets::tar_target( # additional additive covariates ----
+    setup_addons,
+    command = setup_regressions(
+      helpers,
+      MoCA = FALSE,
+      addons = " + glucose + uric_acid"
+    )
+  ),
+  targets::tar_target(
+    regressions_addons,
+    command = fit_regressions(preprocessed_data, setup_addons, helpers)
+  ),
+  targets::tar_target(
+    summaries_addons,
+    command = summarise_regressions(regressions_addons)
+  ),
+  targets::tar_target( # Bayesian regression with heteroscedasticity ----
+    formulas,
+    command = set_formulas()
   ),
   targets::tar_target(
     bayesian_regressions,
