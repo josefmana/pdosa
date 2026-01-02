@@ -16,6 +16,7 @@ describe_data <- function(data) {
     "AGE",
     "EDU.Y",
     "BMI",
+    "AHI",
     "age_first_symptom",
     "disease_duration",
     "moca",
@@ -50,7 +51,7 @@ describe_data <- function(data) {
   )
   nomin <- c(
     "GENDER",
-    #"RBD",
+    "RBD",
     "Path_MTA_A",
     "Path_MTA_H",
     "PDMCI_I",
@@ -102,7 +103,7 @@ describe_data <- function(data) {
     tibble::rownames_to_column("y")
   # Add statistical analysis results of variables present in both PD and HC:
   tab1 <- dplyr::left_join(
-    tab1, purrr::map_dfr(cont[c(1:3, 6, 13:length(cont))], function(y) {
+    tab1, purrr::map_dfr(cont[c(1:4, 7, 14:length(cont))], function(y) {
       summary(lm(as.formula( paste0(y," ~ SUBJ * AHI.F")), data = d0))$coefficients[ , c("t value", "Pr(>|t|)")] |>
         statextract(y = y, stat = "t")
     }),
@@ -110,7 +111,7 @@ describe_data <- function(data) {
   )
   # Add logistic regression for common variables:
   nomintest <- sapply(nomin, function(x) {
-    if (stringr::str_detect(x, "MCI")) {
+    if (stringr::str_detect(x, "MCI") || x == "RBD") {
       FALSE
     } else {
       ncol(table(d0[ , c("GROUP", x)])) == 2
@@ -124,8 +125,7 @@ describe_data <- function(data) {
       dplyr::select(-y)
   }
   # Add logistic regression for iRBD and PD-MCI level I
-  #for(i in c("RBD","PDMCI_I")) {
-  for (i in c("PDMCI_I", "PDMCI_II")) {
+  for (i in c("RBD", "PDMCI_I", "PDMCI_II")) {
     tab1[tab1$y == i, "AHI.F1"] <- summary(
       glm(
         as.formula(paste0(i," ~ AHI.F")),
@@ -137,7 +137,7 @@ describe_data <- function(data) {
       dplyr::select(-y)
   }
   # Add results of continuous variables for PD only:
-  for (i in with(tab1, y[CONH == "-"] )[-1:-2]) {
+  for (i in with(tab1, y[CONH == "-"] )[-1:-3]) {
     tab1[ tab1$y == i, "AHI.F1"] <-
       summary(lm(as.formula(paste0(i," ~ AHI.F")), data = d0))$coefficients[ , c("t value", "Pr(>|t|)")] |>
       statextract(y = i, stat = "t") |>

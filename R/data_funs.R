@@ -156,7 +156,7 @@ import_data <- function(files, helpers) {
   calculator <- helpers$calculator |>
     dplyr::filter(X1 %in% with(helpers$psychohelp, label[!is.na(pairs)])) |>
     dplyr::mutate(
-      sign = dplyr::if_else(X1 %in% c("TMT-A","PST-C"), -1, 1),
+      sign = dplyr::if_else(X1 %in% c("TMT-A", "PST-C"), -1, 1),
       var = unlist(
         sapply(seq_len(dplyr::n()), function(i) {
           helpers$psychohelp[helpers$psychohelp$label == X1[i], "variable"]
@@ -273,7 +273,7 @@ preprocess_data <- function(data, help, rt_vars, return = "df") {
   # Extract scaling values, i.e.,
   # enrollment full sample means and SDs
   scl <- sapply(
-    c("AGE", "EDU.Y", "BMI", "sBTIV", "moca", help$subco$name, unique(help$hippo$name), help$psych$variable),
+    c("AGE", "EDU.Y", "BMI", "AHI", "sBTIV", "moca", help$subco$name, unique(help$hippo$name), help$psych$variable),
     function(i) {
       with(df, c(M = mean(get(i), na.rm = TRUE), SD = sd(get(i), na.rm = TRUE)))
     }) |>

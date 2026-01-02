@@ -18,7 +18,8 @@ targets_data <- list(
   ),
   targets::tar_target(
     raw_data,
-    command = import_data(datafiles, helpers)
+    command = import_data(datafiles, helpers),
+    cue = targets::tar_cue("always")
   ),
   targets::tar_target(
     rt_variables,
