@@ -38,6 +38,7 @@ summarise_regressions <- function(fit) {
           tibble::add_column(x = x, .after = 1) |>
           dplyr::left_join(lm_dia(fit$`cognition|hippocampi`[[x]]), by = c("y", "X"))
       }) |>
+        dplyr::distinct() |>
         dplyr::mutate(
           dplyr::across(tidyselect::all_of(c("X","coefficient")), re_formulate),
           sig_FDR = bh_adjust(`p value`), # re-calculate Benjamini-Hochberg adjusted significance statements
